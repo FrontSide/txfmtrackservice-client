@@ -56,21 +56,25 @@ function print_songs(data) {
         print += "</tr>"
     })
 
+    console.log("re-render songlist")
     $("#songlist").html(print)
 }
 
 function listen_datetimesearch() {
 
-    $('#datetimepicker').datetimepicker({
-        format: 'YYYY.MM.DD HH:MM:SS'
+    $('#datetimepicker1').datetimepicker({
+        format: 'D.M.YYYY HH:mm:ss'
     });
 
-    $("#datesubmit").click(function(){
+    $("#datetimepicker1").on("dp.change", function (e) {
         r_song_at_datetime($("#datetimesearch").val())
-    })
+    });
+
+    $("#resetbutton").click(function(){
+        r_all_songs()
+    });
 
 }
-
 
 /* Print all at load */
 r_all_songs()

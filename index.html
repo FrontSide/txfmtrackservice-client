@@ -1,21 +1,16 @@
 <html>
 
     <head>
+
         <title> TXFM Track Service </title>
 
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
 
-        <!-- JQuery -->
-        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-            
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-
-        <!-- DatetimePicker -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
     </head>
 
@@ -24,23 +19,49 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <br />
-                <div class='col-sm-6'>               
-                <div class="form-group">
-                <div class='input-group date' id='datetimepicker'>
-                    <input type='text' id="datetimesearch" class="form-control" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+                <div class='col-sm-2'>
                 </div>
+                <div class='col-sm-5'>
+                <h2> <a href="http://www.txfm.ie/player/"> TXFM Dublin 105.2 </a><small>Track-Service </small></h3>
                 </div>
+                <div class='col-sm-5'>
+                    <br />
+                    Probably the best radio station after <a href="http://fm4.orf.at"> FM4 </a>
                 </div>
-                 <button id="datesubmit" type="button" class="btn btn-default">Submit</button>
-            </div>            
-           
+            </div>
         </nav>
 
-   
-        <div class="container"> 
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <br />
+                <div class='col-sm-2'>
+                </div>
+                <div class='col-sm-2'>
+                    <h5><b>What song did they play at:</b></h5>
+                </div>
+                <div class='col-sm-3'>
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepicker1'>
+                        <input id="datetimesearch" type='text' class="form-control" />
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                </div>
+                <div class='col-sm-4'>
+                </div>
+                <div class='col-sm-3'>
+                    <button id="resetbutton" type="button" class="btn btn-default">Reset</button>
+                </div>
+                <div class='col-sm-3'>
+                </div>
+            </div>
+
+        </nav>
+
+
+        <div class="container">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -59,4 +80,3 @@
     </body>
 
 </html>
-
