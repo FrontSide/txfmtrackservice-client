@@ -3,13 +3,13 @@
  * (C) 2015 David Rieger
  */
 
-HOST = "localhost"
-PORT = "8384"
+HOST = "www.arignee.com"
+PORT = "80"
 
 function r_all_songs() {
     console.log("request all songs...")
     try {
-        $.getJSON("http://" + HOST + ":" + PORT + "/get/all", function (data) {
+        $.getJSON("http://" + HOST + ":" + PORT + "/api/get/all", function (data) {
         }).done(function(data) {
             print_songs(data)
         }).fail(function() {
@@ -23,7 +23,7 @@ function r_all_songs() {
 function r_song_at_datetime(datetime) {
     console.log("request song at " +  datetime)
     try {
-        $.getJSON("http://" + HOST + ":" + PORT + "/get/" + datetime, function (data) {
+        $.getJSON("http://" + HOST + ":" + PORT + "/api/get/" + datetime, function (data) {
         }).done(function(data) {
             print_songs(data)
         }).fail(function() {
