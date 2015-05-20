@@ -7,7 +7,6 @@ HOST = "www.txfmtrack.com"
 PORT = "80"
 
 function r_all_songs() {
-    console.log("request all songs...")
     try {
         $.getJSON("http://" + HOST + ":" + PORT + "/api/get/all", function (data) {
         }).done(function(data) {
@@ -21,7 +20,6 @@ function r_all_songs() {
 }
 
 function r_song_at_datetime(datetime) {
-    console.log("request song at :: " +  datetime)
     try {
         $.getJSON("http://" + HOST + ":" + PORT + "/api/get/time/" + datetime, function (data) {
         }).done(function(data) {
@@ -38,7 +36,6 @@ function r_song_for_string(searchstring) {
     if (searchstring.trim() == "") {
         return r_all_songs()
     }
-    console.log("request song for :: " +  searchstring)
     try {
         $.getJSON("http://" + HOST + ":" + PORT + "/api/get/text/" + searchstring, function (data) {
         }).done(function(data) {
@@ -53,7 +50,6 @@ function r_song_for_string(searchstring) {
 
 function print_songs(data) {
     print = ""
-    console.log(data.JSON)
     $("#songlist").html("sdfsdf")
     /*Iterate Dates*/
     var lastdate = null
@@ -79,7 +75,6 @@ function print_songs(data) {
 
     })
 
-    console.log("re-render songlist")
     $("#songlist").html(print)
 
     $("#songlist").removeClass('loaded');
