@@ -6,6 +6,7 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
         <link rel="stylesheet" href="bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
+        <link rel="stylesheet" href="txfm.css" />
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
@@ -19,12 +20,13 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <br />
-                <div class='col-sm-2'>
+                <div class='col-sm-3'>
                 </div>
-                <div class='col-sm-5'>
+                <div class='col-sm-4'>
                 <h2> <a href="http://www.txfm.ie/player/"> TXFM Dublin 105.2 </a><small>Track-Service </small></h3>
                 </div>
                 <div class='col-sm-5'>
+                    <br />
                     <br />
                     Probably the best radio station after <a href="http://fm4.orf.at"> FM4 </a>
                 </div>
@@ -34,27 +36,35 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <br />
-                <div class='col-sm-2'>
-                </div>
-                <div class='col-sm-2'>
-                    <h5><b>What song did they play at:</b></h5>
+                <div class='col-sm-3'>
                 </div>
                 <div class='col-sm-3'>
                 <div class="form-group">
                     <div class='input-group date' id='datetimepicker1'>
-                        <input id="datetimesearch" type='text' class="form-control" />
+                        <span class="input-group-addon">
+                        What did they play at:
+                        </span>
+                        <input placeholder="26.10.2014 12:00" id="datetimesearch" type='text' class="form-control" />
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
                     </div>
                 </div>
                 </div>
-                <div class='col-sm-4'>
-                </div>
                 <div class='col-sm-3'>
+                <div class="form-group">
+                    <div class='input-group date' id='datetimepicker1'>
+                        <span class="input-group-addon">
+                        When did they play:
+                        </span>
+                        <input placeholder="All Tvvins" id="textsearch" type='text' class="form-control" />
+                    </div>
+                </div>
+                </div>
+                <div class='col-sm-1'>
                     <button id="resetbutton" type="button" class="btn btn-default">Reset</button>
                 </div>
-                <div class='col-sm-3'>
+                <div class='col-sm-1'>
                 </div>
             </div>
 
@@ -65,13 +75,13 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Title</th>
-                        <th>Artist</th>
+                        <th class="col-sm-1.5">Date</th>
+                        <th class="col-sm-1" >Time</th>
+                        <th class="col-md-5" >Title</th>
+                        <th class="col-md-5" >Artist</th>
                     </tr>
                 </thead>
-                <tbody id="songlist"></tbody>
+                <tbody id="songlist" class="loaded"></tbody>
             </table>
         </div>
 

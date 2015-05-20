@@ -1,0 +1,23 @@
+.nobg {
+    background: none;
+    background-color: #FFF;
+    border-top: #FFF
+}
+
+tr:hover {
+    background-color: #F9F9F9;
+}
+
+table {
+    box-shadow: 0px 20px 20px -15px #DDD;
+}
+
+#songlist {
+    border: solid 2px;
+    border-color: #DDF;
+    transition: border-color 1s ease 0s;
+}
+
+#songlist.loaded {
+    border-color: #FFF;
+}
