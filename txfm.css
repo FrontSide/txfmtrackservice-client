@@ -1,6 +1,10 @@
+body {
+    overflow-y: scroll;
+}
+
 .nobg {
     background: none;
-    background-color: #FFF;
+    background-color: inherit;
     border-top: #FFF
 }
 
@@ -20,4 +24,21 @@ table {
 
 #songlist.loaded {
     border-color: #FFF;
+}
+
+.tr-first, .table-striped>tbody>tr:nth-of-type(odd).tr-first {
+    background-color: #DDF;
+    color: #000;
+    font-weight: bold;
+    transition: background-color 1s ease 0s, color 1s ease 0s;
+    border-bottom: 10px solid #FFF;
+}
+
+.tr-first.loaded, .table-striped>tbody>tr:nth-of-type(odd).tr-first.loaded, .tr-first.loaded > td.no-bg {
+    background-color: #2222AA;
+    color: #FFF
+}
+
+.form-control, .input-group-addon, .bootstrap-datetimepicker-widget, .datepicker > div > table {
+    font-size: 20px
 }

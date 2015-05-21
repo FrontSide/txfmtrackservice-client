@@ -10,7 +10,7 @@ function r_all_songs() {
     try {
         $.getJSON("http://" + HOST + ":" + PORT + "/api/get/all", function (data) {
         }).done(function(data) {
-            print_songs(data)
+            print_songs(data ,true)
         }).fail(function() {
             return "Connection failed..."
         })
@@ -34,6 +34,7 @@ function r_song_at_datetime(datetime) {
 
 function r_song_for_string(searchstring) {
     if (searchstring.trim() == "") {
+        start_refresh_interval();
         return r_all_songs()
     }
     try {
@@ -48,21 +49,47 @@ function r_song_for_string(searchstring) {
     }
 }
 
-function print_songs(data) {
+var current_song_time
+function print_songs(data, highlightFirst) {
     print = ""
-    $("#songlist").html("sdfsdf")
     /*Iterate Dates*/
     var lastdate = null
+    var first = true;
+    var EXIT_EXECUTION = false
     $.each(data, function(k, v){
-        print += "<tr>"
+
+        var this_date = k.split(" ")[0]
+        var this_time = k.split(" ")[1]
+
+        if (!highlightFirst) {
+            current_song_time = false
+        }
+
+        if (first && highlightFirst){
+
+            first = false;
+
+            /* Dont't refresh if song hasn't changes */
+            if (this_time == current_song_time) {
+                EXIT_EXECUTION = true;
+                return;
+            }
+
+            current_song_time = this_time
+
+            print += "<tr class='tr-first'>"
+
+        } else {
+            print += "<tr>"
+        }
         print += "<td class='nobg'>"
-        if (k.split(" ")[0] != lastdate) {
-            print +=  "<b>" + k.split(" ")[0] + "</b>"
-            lastdate = k.split(" ")[0]
+        if (this_date != lastdate) {
+            print +=  "<b>" + this_date + "</b>"
+            lastdate = this_date
         }
         print += "</td>"
         print += "<td>"
-        print +=  k.split(" ")[1]
+        print +=  this_time
         print += "</td>"
         print += "<td>"
         print +=  v["title"]
@@ -75,42 +102,56 @@ function print_songs(data) {
 
     })
 
+    if (EXIT_EXECUTION) {
+        return;
+    }
+
     $("#songlist").html(print)
 
+    $("tr.tr-first").removeClass('loaded');
     $("#songlist").removeClass('loaded');
 
     setTimeout(function(){
       $("#songlist").addClass('loaded');
+      $("tr.tr-first").addClass('loaded');
   }, 500);
 }
 
-function listen_datetimesearch() {
+function startup() {
+
+    /* Print all at load and in 30 sec interval */
+    r_all_songs()
+    start_refresh_interval();
 
     $('#datetimepicker1').datetimepicker({
         format: 'D.M.YYYY HH:mm:ss'
     });
 
     $("#datetimepicker1").on("dp.change", function (e) {
-        clearInterval(refresh_iv)
+        stop_refresh_interval()
         r_song_at_datetime($("#datetimesearch").val())
     });
 
     $("#textsearch").on("keyup", function (e) {
-        clearInterval(refresh_iv)
+        stop_refresh_interval()
         r_song_for_string($("#textsearch").val())
     });
 
     $("#resetbutton").click(function(){
         r_all_songs()
-        clearInterval(refresh_iv)
-        var refresh_iv = setInterval(r_all_songs, 30000);
+        start_refresh_interval()
     });
 
 }
 
-/* Print all at load and in 30 sec interval */
-r_all_songs()
-var refresh_iv = setInterval(r_all_songs, 30000);
+var refresh_iv
+function start_refresh_interval() {
+    clearInterval(refresh_iv)
+    refresh_iv = setInterval(r_all_songs, 30000)
+}
 
-/* Search listener */
-listen_datetimesearch()
+function stop_refresh_interval() {
+    clearInterval(refresh_iv)
+}
+
+startup()
