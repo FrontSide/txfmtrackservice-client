@@ -30,13 +30,16 @@ table {
     background-color: #DDF;
     color: #000;
     font-weight: bold;
-    transition: background-color 1s ease 0s, color 1s ease 0s;
+    transition: background-color 1s ease 0s, color 1s ease 0s, border-left-color 1s ease 0s;
+    border-left: 10px solid #FFF;
     border-bottom: 10px solid #FFF;
 }
 
 .tr-first.loaded, .table-striped>tbody>tr:nth-of-type(odd).tr-first.loaded, .tr-first.loaded > td.no-bg {
-    background-color: #2222AA;
-    color: #FFF
+    background-color: inherit;
+    color: #222;
+    border-top: 2px solid #2222AA;
+    border-left: 10px solid #2222AA;
 }
 
 .form-control, .input-group-addon, .bootstrap-datetimepicker-widget, .datepicker > div > table {
