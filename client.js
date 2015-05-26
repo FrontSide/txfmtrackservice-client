@@ -19,9 +19,15 @@ function r_all_songs() {
     }
 }
 
-function r_song_at_datetime(datetime) {
+function r_song_at_datetime(datetime, EXTENSIVE) {
+
+    fetch_cmd = "get"
+    if (EXTENSIVE == true) {
+        fetch_cmd = "full"
+    }
+
     try {
-        $.getJSON("http://" + HOST + ":" + PORT + "/api/get/time/" + datetime, function (data) {
+        $.getJSON("http://" + HOST + ":" + PORT + "/api/" + fetch_cmd + "/time/" + datetime, function (data) {
         }).done(function(data) {
             print_songs(data)
         }).fail(function() {
@@ -32,13 +38,20 @@ function r_song_at_datetime(datetime) {
     }
 }
 
-function r_song_for_string(searchstring) {
+function r_song_for_string(searchstring, EXTENSIVE) {
+
     if (searchstring.trim() == "") {
         start_refresh_interval();
         return r_all_songs()
     }
+
+    fetch_cmd = "get"
+    if (EXTENSIVE == true) {
+        fetch_cmd = "full"
+    }
+
     try {
-        $.getJSON("http://" + HOST + ":" + PORT + "/api/get/text/" + searchstring, function (data) {
+        $.getJSON("http://" + HOST + ":" + PORT + "/api/" + fetch_cmd + "/text/" + searchstring, function (data) {
         }).done(function(data) {
             print_songs(data)
         }).fail(function() {
@@ -130,11 +143,13 @@ function startup() {
     $("#datetimepicker1").on("dp.change", function (e) {
         stop_refresh_interval()
         r_song_at_datetime($("#datetimesearch").val())
+        r_song_at_datetime($("#datetimesearch").val(), true) //Extensive
     });
 
     $("#textsearch").on("keyup", function (e) {
         stop_refresh_interval()
         r_song_for_string($("#textsearch").val())
+        r_song_for_string($("#textsearch").val(), true) //Extensive
     });
 
     $("#resetbutton").click(function(){
