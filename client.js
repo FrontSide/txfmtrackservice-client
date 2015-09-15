@@ -10,7 +10,7 @@ function r_all_songs() {
     try {
         $.getJSON("http://" + HOST + ":" + PORT + "/api/get/all", function (data) {
         }).done(function(data) {
-            print_songs(data ,true)
+            print_songs(data, true)
         }).fail(function() {
             return "Connection failed..."
         })
@@ -36,6 +36,23 @@ function r_song_at_datetime(datetime, EXTENSIVE) {
     } catch(e) {
         return "Connection failed..."
     }
+}
+
+searchstring_last_value = "" // Aren't global variables beautiful
+function string_ext_check(){
+    /* For performance reasons, extensive search is only conducted
+     * if nothing has been changed in the search field.
+     * This is checked here and upon success, the extensive earch is invoked
+     * Clears the given interval (with which it was invoked, hopefully) if the search has started
+     */
+    searchstring_current_value = $("#textsearch").val().trim()
+    if (searchstring_last_value == searchstring_current_value) {
+        r_song_for_string(searchstring_current_value, true)
+        stop_stringsearch_interval()
+        searchstring_last_value = ""
+    }
+    searchstring_last_value = searchstring_current_value
+
 }
 
 function r_song_for_string(searchstring, EXTENSIVE) {
@@ -64,6 +81,7 @@ function r_song_for_string(searchstring, EXTENSIVE) {
 
 var current_song_time
 function print_songs(data, highlightFirst) {
+    console.log("rendering...")
     print = ""
     /*Iterate Dates*/
     var lastdate = null
@@ -136,6 +154,8 @@ function startup() {
     r_all_songs()
     start_refresh_interval();
 
+    console.log("Starting...")
+
     $('#datetimepicker1').datetimepicker({
         format: 'D.M.YYYY HH:mm:ss'
     });
@@ -148,8 +168,10 @@ function startup() {
 
     $("#textsearch").on("keyup", function (e) {
         stop_refresh_interval()
+
         r_song_for_string($("#textsearch").val())
-        r_song_for_string($("#textsearch").val(), true) //Extensive
+        start_stringsearch_interval() // for extensive search
+
     });
 
     $("#resetbutton").click(function(){
@@ -169,4 +191,16 @@ function stop_refresh_interval() {
     clearInterval(refresh_iv)
 }
 
-startup()
+var stringsearch_iv
+function start_stringsearch_interval() {
+    clearInterval(stringsearch_iv)
+    stringsearch_iv = setInterval(string_ext_check, 2000)
+}
+
+function stop_stringsearch_interval() {
+    clearInterval(stringsearch_iv)
+}
+
+$(document).ready( function() {
+    startup()
+})
