@@ -3,8 +3,8 @@
  * (C) 2015 David Rieger
  */
 
-HOST = "www.txfmtrack.com"
-PORT = "80"
+HOST = host_config.host
+PORT = host_config.port
 
 function r_all_songs() {
     try {
