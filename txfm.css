@@ -8,6 +8,20 @@ body {
     border-top: #FFF
 }
 
+.bluebg {
+    background-color: #000088;
+    color: #FFFFFF
+}
+
+.bluebg > * > * > a {
+    color: #DFDFDF;
+    font-weight: bold
+}
+
+.bluebg > * > * > small {
+    color: #FFF
+}
+
 tr:hover {
     background-color: #F9F9F9;
 }
