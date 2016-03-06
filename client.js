@@ -10,7 +10,8 @@ function r_all_songs() {
     try {
         $.getJSON("http://" + HOST + ":" + PORT + "/api/get/all", function (data) {
         }).done(function(data) {
-            print_songs(data, true)
+            print_songs(data, true, true)
+            remove_loading_msg()
         }).fail(function() {
             return "Connection failed..."
         })
@@ -22,14 +23,17 @@ function r_all_songs() {
 function r_song_at_datetime(datetime, EXTENSIVE) {
 
     fetch_cmd = "get"
+    enforce_load_msg_removal = true
     if (EXTENSIVE == true) {
         fetch_cmd = "full"
+        append_loading_msg()
+        enforce_load_msg_removal = true
     }
 
     try {
         $.getJSON("http://" + HOST + ":" + PORT + "/api/" + fetch_cmd + "/time/" + datetime, function (data) {
         }).done(function(data) {
-            print_songs(data)
+            print_songs(data, false, enforce_load_msg_removal)
         }).fail(function() {
             return "Connection failed..."
         })
@@ -59,85 +63,118 @@ function r_song_for_string(searchstring, EXTENSIVE) {
 
     if (searchstring.trim() == "") {
         start_refresh_interval();
-        return r_all_songs()
+        r_all_songs()
+        return
     }
 
+    enforce_load_msg_removal = false
     fetch_cmd = "get"
     if (EXTENSIVE == true) {
         fetch_cmd = "full"
+        append_loading_msg()
+        enforce_load_msg_removal = true
     }
 
     try {
         $.getJSON("http://" + HOST + ":" + PORT + "/api/" + fetch_cmd + "/text/" + searchstring, function (data) {
         }).done(function(data) {
-            print_songs(data)
+            console.log("Connection successful")
+            print_songs(data, false, enforce_load_msg_removal)
         }).fail(function() {
-            return "Connection failed..."
+            console.log("Connection Failure")
         })
     } catch(e) {
-        return "Connection failed..."
+        console.log("Connection Failure")
+    }
+
+}
+
+function append_loading_msg() {
+    row = document.createElement('tr');
+    cell = document.createElement('td');
+    console.log("show load...")
+
+    if (!$("#loading-cell").length) {
+        $(cell).addClass("bluebg loading-cell").html("Loading...").appendTo(row)
+        return $(row).attr("id", "loading-cell").appendTo("#loadingtable")
+    }
+}
+
+function remove_loading_msg() {
+    if ($("#loading-cell").length) {
+        console.log("hide load...")
+        $("#loading-cell").remove()
     }
 }
 
 var current_song_time
-function print_songs(data, highlightFirst) {
+function print_songs(data, highlightFirst, enforce_load_msg_removal) {
     console.log("rendering...")
-    print = ""
-    /*Iterate Dates*/
+
+    //Iterate Dates
     var lastdate = null
     var first = true;
     var EXIT_EXECUTION = false
-    $.each(data, function(k, v){
 
+    var _num_elements = Object.keys(data).length
+    $.each(data, function(k, v){
         var this_date = k.split(" ")[0]
-        var this_time = k.split(" ")[1]
+        var this_time = k.split(" ")[1].split(":").slice(0,2).join(":")
 
         if (!highlightFirst) {
             current_song_time = false
         }
 
-        if (first && highlightFirst){
+        row = document.createElement('tr');
 
+        if (first){
             first = false;
 
             /* Dont't refresh if song hasn't changes */
             if (this_time == current_song_time) {
+                console.log("this time is current time")
                 EXIT_EXECUTION = true;
-                return;
+                return false //Only if return !false! the each loop is exited!
+            } else {
+                $("#songlist").html("")
             }
 
             current_song_time = this_time
 
-            print += "<tr class='tr-first'>"
+            if (highlightFirst){
+                $(row).addClass("tr-first")
+            }
 
-        } else {
-            print += "<tr>"
         }
-        print += "<td class='nobg'>"
+
+        $(row).appendTo("#songlist")
+
+        cell = document.createElement('td');
+        $(cell).addClass("nobg").appendTo(row)
+
         if (this_date != lastdate) {
-            print +=  "<b>" + this_date + "</b>"
+            $(cell).html("<b>" + this_date + "</b>")
             lastdate = this_date
         }
-        print += "</td>"
-        print += "<td>"
-        print +=  this_time
-        print += "</td>"
-        print += "<td>"
-        print +=  v["title"]
-        print += "</td>"
-        print += "<td>"
-        print +=  v["artist"]
-        print += "</td>"
-        print += "</tr>"
 
+        cell = document.createElement('td');
+        $(cell).appendTo(row).html(this_time)
+
+        cell = document.createElement('td');
+        $(cell).appendTo(row).html(v["title"])
+
+        cell = document.createElement('td');
+        $(cell).appendTo(row).html(v["artist"])
+
+        if (!--_num_elements && enforce_load_msg_removal) {
+            remove_loading_msg()
+        }
 
     })
 
     if (EXIT_EXECUTION) {
         return;
     }
-
-    $("#songlist").html(print)
 
     $("tr.tr-first").removeClass('loaded');
     $("#songlist").removeClass('loaded');
@@ -146,6 +183,7 @@ function print_songs(data, highlightFirst) {
       $("#songlist").addClass('loaded');
       $("tr.tr-first").addClass('loaded');
   }, 500);
+
 }
 
 function startup() {
@@ -163,13 +201,16 @@ function startup() {
     $("#datetimepicker1").on("dp.change", function (e) {
         stop_refresh_interval()
         r_song_at_datetime($("#datetimesearch").val())
+        append_loading_msg()
         r_song_at_datetime($("#datetimesearch").val(), true) //Extensive
     });
 
     $("#textsearch").on("keyup", function (e) {
         stop_refresh_interval()
 
+        append_loading_msg()
         r_song_for_string($("#textsearch").val())
+
         start_stringsearch_interval() // for extensive search
 
     });

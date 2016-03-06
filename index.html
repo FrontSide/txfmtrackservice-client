@@ -79,7 +79,7 @@
 
 
         <div class="container">
-            <table class="table table-striped">
+            <table id="songstable" class="table table-striped">
                 <thead>
                     <tr>
                         <th class="col-sm-1.5">Date</th>
@@ -91,11 +91,26 @@
                 <tbody id="songlist" class="loaded"></tbody>
             </table>
 
+            <table class="table">
+                <tbody id="loadingtable"></tbody>
+            </table>
 
             <footer>
-                TxfmTrackService Version 1.2 <b>(C) 2015</b>
-                <a href="https://hub.docker.com/r/fr0ntside/txfmtrackservice/"><img src="https://raw.githubusercontent.com/danehans/v3_presentation/gh-pages/images/docker-logo.png" width="70px" /></a>
-                <a href="https://www.github.com/Frontside/txfmtrackservice"><img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" width="70px" /></a>
+                <div class="row">
+                    <div class="col-xs-6 col-md-6">
+                        TxfmTrackService Version 1.2 <br />
+                        TxfmTrackService Client Version 1.2.1 <br />
+                        <b>(C) 2016</b>
+                    </div>
+                    <div class="col-xs-4 col-md-4">
+                    </div>
+                    <div class="col-xs-1 col-md-1">
+                        <a href="https://hub.docker.com/r/fr0ntside/txfmtrackservice/"><img src="https://raw.githubusercontent.com/danehans/v3_presentation/gh-pages/images/docker-logo.png" width="70px" /></a>
+                    </div>
+                    <div class="col-xs-1 col-md-1">
+                        <a href="https://www.github.com/Frontside/txfmtrackservice"><img src="https://assets-cdn.github.com/images/modules/logos_page/GitHub-Mark.png" width="70px" /></a>
+                    </div>
+                </div>
             </footer>
 
         </div>

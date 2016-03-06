@@ -2,6 +2,10 @@ body {
     overflow-y: scroll;
 }
 
+footer {
+    color: #AAA;
+}
+
 .nobg {
     background: none;
     background-color: inherit;
@@ -54,6 +58,13 @@ table {
     color: #222;
     border-top: 2px solid #2222AA;
     border-left: 10px solid #2222AA;
+}
+
+.table > tbody > tr > td.loading-cell {
+    padding-left: 100px;
+    font-size: 15px;
+    color: #EEEEEE;
+    font-weight: bold;
 }
 
 .form-control, .input-group-addon, .bootstrap-datetimepicker-widget, .datepicker > div > table {
